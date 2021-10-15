@@ -14,14 +14,11 @@ import { FormikProps } from "formik";
 import React, { FC, useState } from "react";
 import { getFieldError, IFieldProps, TFile } from "react-forms";
 import helpers from "./helpers";
-import COLOR from "./themeConstants";
 import { Picture } from "./Picture/@types";
-import RemoveIcon from "./RemoveIcon";
-import PgIcon from "./PgIcon";
+import RemoveIcon from "@material-ui/icons/Remove";
+// import PgIcon from "./PgIcon";
+import AddIcon from "@material-ui/icons/Add";
 import { get } from "lodash";
-
-// import useAsyncTask from "Hooks/useAsyncTask";
-// import PictureModel from "Models/Picture";
 
 export interface ImagePickerFieldProps {
   label: string;
@@ -179,11 +176,7 @@ const ImagePicker: FC<ImagePickerProps> = (props) => {
           ) : (
             <>
               {!value || !value?.url ? (
-                <PgIcon
-                  icon="icon-add"
-                  color="secondary"
-                  styleClass={classes.icon}
-                />
+                <AddIcon color="secondary" className={classes.icon} />
               ) : null}
               {value ? (
                 <Box overflow="hidden">
@@ -219,7 +212,7 @@ const ImagePicker: FC<ImagePickerProps> = (props) => {
           )}
           <div id="imageRemoveOverlay" className={classes.imageRemoveOverlay}>
             <IconButton onClick={(event) => removeItem(event)}>
-              <RemoveIcon color="contrast" />
+              <RemoveIcon />
             </IconButton>
           </div>
         </div>
@@ -326,7 +319,8 @@ const useStyles = makeStyles((theme) =>
         zIndex: 9,
       },
       "&::before": {
-        backgroundColor: COLOR.secondary.blue,
+        // backgroundColor: COLOR.secondary.blue,
+        backgroundColor: "#675DF7",
         content: "' '",
         position: "absolute",
         left: 0,
