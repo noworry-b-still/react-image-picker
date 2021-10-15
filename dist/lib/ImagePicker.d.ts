@@ -10,8 +10,8 @@ export interface ImagePickerFieldProps {
     helperText?: string;
     classes?: ImagePickerClasses;
     helperTextProps?: FormHelperTextProps;
-    uploadPicture: (pictureObject: TFile) => Picture;
-    cropConfig: ImageCropperProps["cropConfig"];
+    uploadPicture: (pictureObject: TFile) => Promise<Picture>;
+    cropConfig?: ImageCropperProps["cropConfig"];
 }
 interface ImagePickerClasses {
     label?: string;

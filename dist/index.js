@@ -267,7 +267,7 @@ var ImagePicker = function (props) {
                     !value || !(value === null || value === void 0 ? void 0 : value.url) ? (React__default["default"].createElement(AddIcon__default["default"], { color: "secondary", className: classes.icon })) : null,
                     value ? (React__default["default"].createElement(core.Box, { overflow: "hidden" },
                         " ",
-                        React__default["default"].createElement("img", { className: classes.img, width: imgHW, src: value, alt: "" }),
+                        React__default["default"].createElement("img", { className: classes.img, width: imgHW, src: typeof value === "string" ? value : value.url, alt: "" }),
                         " ")) : null,
                     React__default["default"].createElement("input", { accept: "image/*", title: "", type: "file", name: "" + name, onChange: function (event) { return handleChange(event); }, className: classes.input }),
                     (croppedImage === null || croppedImage === void 0 ? void 0 : croppedImage.base64) ? (React__default["default"].createElement(React__default["default"].Fragment, null,

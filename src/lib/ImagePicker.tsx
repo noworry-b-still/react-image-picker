@@ -150,7 +150,7 @@ const ImagePicker: FC<ImagePickerProps> = (props) => {
                   <img
                     className={classes.img}
                     width={imgHW}
-                    src={value}
+                    src={typeof value === "string" ? value : value.url}
                     alt=""
                   />{" "}
                 </Box>
