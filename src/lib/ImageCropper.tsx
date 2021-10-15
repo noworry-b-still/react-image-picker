@@ -79,7 +79,6 @@ const ImageCropper: FC<ImageCropperProps> = (props) => {
     image: HTMLImageElement | null,
     crop: Required<Crop>
   ): Promise<string> => {
-    // eslint-disable-next-line no-throw-literal
     if (!image) throw "";
     const canvas = document.createElement("canvas");
     const scaleX = image.naturalWidth / image.width;
@@ -88,8 +87,7 @@ const ImageCropper: FC<ImageCropperProps> = (props) => {
     canvas.height = crop.height;
     const ctx = canvas.getContext("2d");
 
-    // eslint-disable-next-line no-throw-literal
-    if (!ctx) throw "";
+    if (!ctx) throw new Error("No image given");
     ctx.drawImage(
       image,
       crop.x * scaleX,

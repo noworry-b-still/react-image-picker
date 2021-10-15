@@ -13,7 +13,7 @@ import ImageCropper, { ImageCropperProps } from "./ImageCropper";
 import { FormikProps } from "formik";
 import React, { FC, useState } from "react";
 import { getFieldError, IFieldProps, TFile } from "react-forms";
-import helpers from "./helpers";
+
 import { Picture } from "./Picture/@types";
 import RemoveIcon from "@material-ui/icons/Remove";
 // import PgIcon from "./PgIcon";
@@ -23,13 +23,12 @@ import { get } from "lodash";
 export interface ImagePickerFieldProps {
   label: string;
   name?: string;
-  imgHW?: number; // This has to be a number because this is the width that will be applied for transforming the url using imageKit's api.
-  // imagePlaceholderHeight: number | string;
+  imgHW?: number;
   customParser?: (img: any) => Picture | string;
   helperText?: string;
   classes?: ImagePickerClasses;
   helperTextProps?: FormHelperTextProps;
-  // imageUploadType?: string;
+
   parsePicture: (response: any) => Picture;
   uploadPicture: (pictureObject: TFile) => Picture;
   cropConfig: ImageCropperProps["cropConfig"];
@@ -55,27 +54,22 @@ const ImagePicker: FC<ImagePickerProps> = (props) => {
     name = "",
     label = "Add Images",
     helperText,
-    customParser,
     imgHW = 90,
     /* imagePlaceholderHeight = 50, */ classes: propClasses,
     helperTextProps,
-    // imageUploadType,
     uploadPicture,
     cropConfig,
-    // parsePicture,
   } = fieldProps;
   const classes = useStyles();
   const valueKey = fieldConfig?.valueKey || "";
   const value: any = get(formikProps, `values.${name}`);
-  // const [uploadingImgNum, setUploadingImgNum] = useState<number | undefined>();
-  // const numAddedImages = typeof value?.length === 'number' ? value?.length : 0;
+
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-  // const { withCropping = true, cropConfig={} } = props;
   const withCropping = true;
-  // const cropConfig = returnImageCropSize(imageUploadType);
   const [croppedImage, setCroppedImage] = useState<TFile>();
+
   const pictureUpload = async (prop: { imgs: TFile[]; _rem: any[] }) => {
     setStatus("PROCESSING");
     const { imgs } = prop;
@@ -83,22 +77,16 @@ const ImagePicker: FC<ImagePickerProps> = (props) => {
       const image = await uploadPicture(imgs[0]);
       if (image) {
         setStatus("SUCCESS");
-        if (!customParser && formikProps)
-          formikProps.setFieldValue(valueKey, image);
-        else if (formikProps && customParser)
-          formikProps.setFieldValue(valueKey, customParser(image)); // Checking formikProps is only to workaround eslint warnings. If eslint updates allow disabling the error, this check can be removed.
+        if (formikProps) formikProps.setFieldValue(valueKey, image);
+        // else if (formikProps && customParser)
+        //   formikProps.setFieldValue(valueKey, image)); // Checking formikProps is only to workaround eslint warnings. If eslint updates allow disabling the error, this check can be removed.
       }
     } catch (error) {
       setStatus("ERROR");
       setMessage(error.message);
     }
   };
-  // const pictureUploadTask = pictureUpload;
-  /* useEffect(() => {
-          if (pictureUploadTask.status !== 'PROCESSING') {
-              setUploadingImgNum(undefined);
-          }
-      }, [pictureUploadTask.status]); */
+
   const fieldError = getFieldError(name, formikProps as any);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target;
@@ -120,22 +108,9 @@ const ImagePicker: FC<ImagePickerProps> = (props) => {
       };
       reader.readAsDataURL(file);
     }
-    // files &&
-    //   processFilesWithCallback(
-    //     files,
-    //     (prop: { imgs: TFile[]; _rem: any[] }) => {
-    //       pictureUploadTask.run(prop);
-    //     }
-    //   );
   };
 
-  const handleUPloadtwo = (croppedBase64?: string) => {
-    // processFilesWithCallback(
-    //   [{...croppedImage,base64:croppedBase64}],
-    //   (prop: { imgs: TFile[]; _rem: any[] }) => {
-    //     pictureUploadTask.run(prop);
-    //   }
-    // );
+  const handleUpload = (croppedBase64?: string) => {
     if (croppedImage) {
       pictureUpload({
         imgs: [{ ...croppedImage, base64: croppedBase64 ?? "" }],
@@ -151,13 +126,8 @@ const ImagePicker: FC<ImagePickerProps> = (props) => {
       formikProps.setFieldValue(name, undefined);
     }
   };
-  // const handleComplete = (croppedBase64: string) => {
-  // 	console.count('handleComplete');
-  // 	if (croppedImage)
-  // 		props.onDone?.([{ ...croppedImage, base64: croppedBase64 }]);
-  // };
+
   const isLoading = status === "PROCESSING";
-  // console.log('True or false', value?.[0]?.[0], formikProps, name);
   return (
     <Box>
       <Box mb={1}>
@@ -184,7 +154,7 @@ const ImagePicker: FC<ImagePickerProps> = (props) => {
                   <img
                     className={classes.img}
                     width={imgHW}
-                    src={helpers.getPictureUrl(value, imgHW)}
+                    src={value}
                     alt=""
                   />{" "}
                 </Box>
@@ -204,7 +174,7 @@ const ImagePicker: FC<ImagePickerProps> = (props) => {
                     onClose={() => setOpen(false)}
                     base64={croppedImage.base64 as string}
                     cropConfig={cropConfig}
-                    onComplete={handleUPloadtwo}
+                    onComplete={handleUpload}
                   />
                 </>
               ) : null}
