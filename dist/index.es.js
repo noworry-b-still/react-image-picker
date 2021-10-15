@@ -131,7 +131,6 @@ var ImageCropper = function (props) {
         });
     }); };
     var getCroppedImg = function (image, crop) {
-        // eslint-disable-next-line no-throw-literal
         if (!image)
             throw "";
         var canvas = document.createElement("canvas");
@@ -140,9 +139,8 @@ var ImageCropper = function (props) {
         canvas.width = crop.width;
         canvas.height = crop.height;
         var ctx = canvas.getContext("2d");
-        // eslint-disable-next-line no-throw-literal
         if (!ctx)
-            throw "";
+            throw new Error("No image given");
         ctx.drawImage(image, crop.x * scaleX, crop.y * scaleY, crop.width * scaleX, crop.height * scaleY, 0, 0, crop.width, crop.height);
         return new Promise(function (resolve) {
             canvas.toBlob(function (blob) {
@@ -172,47 +170,16 @@ var ImageCropper = function (props) {
             React.createElement(Button, { onClick: handleDoneClick, color: "primary" }, "Done"))));
 };
 
-var helpers = {
-    getPictureUrl: function (picture, width, height, quality) {
-        if (width === void 0) { width = 0; }
-        if (height === void 0) { height = 0; }
-        if (quality === void 0) { quality = 0; }
-        if (!picture)
-            return "";
-        console.log("Picture", picture);
-        var path = picture.url || picture.imagePath;
-        // const path = picture.filePath || picture.imagePath;
-        if (path) {
-            var transformationAttr = [];
-            if (width > 0)
-                transformationAttr.push("w-" + Math.ceil(width));
-            if (height > 0)
-                transformationAttr.push("h-" + Math.ceil(height));
-            if (quality > 0)
-                transformationAttr.push("q-" + Math.ceil(height));
-            var transformation = "" + transformationAttr.join(",");
-            var imageUrl = path + "?tr=" + transformation;
-            return imageUrl;
-        }
-        return "";
-    },
-};
-
 var ImagePicker = function (props) {
     var _a = props.fieldProps, fieldProps = _a === void 0 ? {} : _a, fieldConfig = props.fieldConfig, _b = props.formikProps, formikProps = _b === void 0 ? {} : _b;
-    var _c = fieldProps.name, name = _c === void 0 ? "" : _c, _d = fieldProps.label, label = _d === void 0 ? "Add Images" : _d, helperText = fieldProps.helperText, customParser = fieldProps.customParser, _e = fieldProps.imgHW, imgHW = _e === void 0 ? 90 : _e, 
-    /* imagePlaceholderHeight = 50, */ propClasses = fieldProps.classes, helperTextProps = fieldProps.helperTextProps, 
-    // imageUploadType,
-    uploadPicture = fieldProps.uploadPicture, cropConfig = fieldProps.cropConfig;
+    var _c = fieldProps.name, name = _c === void 0 ? "" : _c, _d = fieldProps.label, label = _d === void 0 ? "Add Images" : _d, helperText = fieldProps.helperText, _e = fieldProps.imgHW, imgHW = _e === void 0 ? 90 : _e, 
+    /* imagePlaceholderHeight = 50, */ propClasses = fieldProps.classes, helperTextProps = fieldProps.helperTextProps, uploadPicture = fieldProps.uploadPicture, cropConfig = fieldProps.cropConfig;
     var classes = useStyles();
     var valueKey = (fieldConfig === null || fieldConfig === void 0 ? void 0 : fieldConfig.valueKey) || "";
     var value = get(formikProps, "values." + name);
-    // const [uploadingImgNum, setUploadingImgNum] = useState<number | undefined>();
-    // const numAddedImages = typeof value?.length === 'number' ? value?.length : 0;
     var _f = useState(false), open = _f[0], setOpen = _f[1];
     var _g = useState(""), status = _g[0], setStatus = _g[1];
     var _h = useState(""), message = _h[0], setMessage = _h[1];
-    // const cropConfig = returnImageCropSize(imageUploadType);
     var _j = useState(), croppedImage = _j[0], setCroppedImage = _j[1];
     var pictureUpload = function (prop) { return __awaiter(void 0, void 0, void 0, function () {
         var imgs, image, error_1;
@@ -229,10 +196,10 @@ var ImagePicker = function (props) {
                     image = _a.sent();
                     if (image) {
                         setStatus("SUCCESS");
-                        if (!customParser && formikProps)
+                        if (formikProps)
                             formikProps.setFieldValue(valueKey, image);
-                        else if (formikProps && customParser)
-                            formikProps.setFieldValue(valueKey, customParser(image)); // Checking formikProps is only to workaround eslint warnings. If eslint updates allow disabling the error, this check can be removed.
+                        // else if (formikProps && customParser)
+                        //   formikProps.setFieldValue(valueKey, image)); // Checking formikProps is only to workaround eslint warnings. If eslint updates allow disabling the error, this check can be removed.
                     }
                     return [3 /*break*/, 4];
                 case 3:
@@ -244,12 +211,6 @@ var ImagePicker = function (props) {
             }
         });
     }); };
-    // const pictureUploadTask = pictureUpload;
-    /* useEffect(() => {
-            if (pictureUploadTask.status !== 'PROCESSING') {
-                setUploadingImgNum(undefined);
-            }
-        }, [pictureUploadTask.status]); */
     var fieldError = getFieldError(name, formikProps);
     var handleChange = function (event) {
         var files = event.target.files;
@@ -269,21 +230,8 @@ var ImagePicker = function (props) {
             };
             reader_1.readAsDataURL(file_1);
         }
-        // files &&
-        //   processFilesWithCallback(
-        //     files,
-        //     (prop: { imgs: TFile[]; _rem: any[] }) => {
-        //       pictureUploadTask.run(prop);
-        //     }
-        //   );
     };
-    var handleUPloadtwo = function (croppedBase64) {
-        // processFilesWithCallback(
-        //   [{...croppedImage,base64:croppedBase64}],
-        //   (prop: { imgs: TFile[]; _rem: any[] }) => {
-        //     pictureUploadTask.run(prop);
-        //   }
-        // );
+    var handleUpload = function (croppedBase64) {
         if (croppedImage) {
             pictureUpload({
                 imgs: [__assign(__assign({}, croppedImage), { base64: croppedBase64 !== null && croppedBase64 !== void 0 ? croppedBase64 : "" })],
@@ -298,13 +246,7 @@ var ImagePicker = function (props) {
             formikProps.setFieldValue(name, undefined);
         }
     };
-    // const handleComplete = (croppedBase64: string) => {
-    // 	console.count('handleComplete');
-    // 	if (croppedImage)
-    // 		props.onDone?.([{ ...croppedImage, base64: croppedBase64 }]);
-    // };
     var isLoading = status === "PROCESSING";
-    // console.log('True or false', value?.[0]?.[0], formikProps, name);
     return (React.createElement(Box, null,
         React.createElement(Box, { mb: 1 },
             React.createElement(InputLabel, { className: propClasses === null || propClasses === void 0 ? void 0 : propClasses.label, shrink: false }, label)),
@@ -314,11 +256,11 @@ var ImagePicker = function (props) {
                     !value || !(value === null || value === void 0 ? void 0 : value.url) ? (React.createElement(AddIcon, { color: "secondary", className: classes.icon })) : null,
                     value ? (React.createElement(Box, { overflow: "hidden" },
                         " ",
-                        React.createElement("img", { className: classes.img, width: imgHW, src: helpers.getPictureUrl(value, imgHW), alt: "" }),
+                        React.createElement("img", { className: classes.img, width: imgHW, src: value, alt: "" }),
                         " ")) : null,
                     React.createElement("input", { accept: "image/*", title: "", type: "file", name: "" + name, onChange: function (event) { return handleChange(event); }, className: classes.input }),
                     (croppedImage === null || croppedImage === void 0 ? void 0 : croppedImage.base64) ? (React.createElement(React.Fragment, null,
-                        React.createElement(ImageCropper, { open: open, onClose: function () { return setOpen(false); }, base64: croppedImage.base64, cropConfig: cropConfig, onComplete: handleUPloadtwo }))) : null)),
+                        React.createElement(ImageCropper, { open: open, onClose: function () { return setOpen(false); }, base64: croppedImage.base64, cropConfig: cropConfig, onComplete: handleUpload }))) : null)),
                 React.createElement("div", { id: "imageRemoveOverlay", className: classes.imageRemoveOverlay },
                     React.createElement(IconButton, { onClick: function (event) { return removeItem(event); } },
                         React.createElement(RemoveIcon, null))))),
