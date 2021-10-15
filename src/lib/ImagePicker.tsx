@@ -16,7 +16,6 @@ import { getFieldError, IFieldProps, TFile } from "react-forms";
 
 import { Picture } from "./Picture/@types";
 import RemoveIcon from "@material-ui/icons/Remove";
-// import PgIcon from "./PgIcon";
 import AddIcon from "@material-ui/icons/Add";
 import { get } from "lodash";
 
@@ -24,12 +23,11 @@ export interface ImagePickerFieldProps {
   label: string;
   name?: string;
   imgHW?: number;
-  customParser?: (img: any) => Picture | string;
+
   helperText?: string;
   classes?: ImagePickerClasses;
   helperTextProps?: FormHelperTextProps;
 
-  parsePicture: (response: any) => Picture;
   uploadPicture: (pictureObject: TFile) => Picture;
   cropConfig: ImageCropperProps["cropConfig"];
 }
