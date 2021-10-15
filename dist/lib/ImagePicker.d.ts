@@ -7,11 +7,9 @@ export interface ImagePickerFieldProps {
     label: string;
     name?: string;
     imgHW?: number;
-    customParser?: (img: any) => Picture | string;
     helperText?: string;
     classes?: ImagePickerClasses;
     helperTextProps?: FormHelperTextProps;
-    parsePicture: (response: any) => Picture;
     uploadPicture: (pictureObject: TFile) => Picture;
     cropConfig: ImageCropperProps["cropConfig"];
 }
