@@ -1,6 +1,5 @@
 import { attachField } from "react-forms";
-import ImageCropper from "./ImageCropper";
+import ImagePicker from "./ImagePicker";
+import React from "react";
 
-
-
-attachField("image-cropper",<ImageCropper base64={} open={}/>)
+attachField("image-picker-with-crop", <ImagePicker />);
