@@ -3,7 +3,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, makeStyles, 
 import React, { useState } from 'react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import RemoveIcon from '@material-ui/icons/Remove';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddIcon from '@material-ui/icons/Add';
 import { get } from 'lodash';
 
@@ -263,7 +263,7 @@ var ImagePicker = function (props) {
                         React.createElement(ImageCropper, { open: open, onClose: function () { return setOpen(false); }, base64: croppedImage.base64, cropConfig: cropConfig, onComplete: handleUpload }))) : null)),
                 React.createElement("div", { id: "imageRemoveOverlay", className: classes.imageRemoveOverlay },
                     React.createElement(IconButton, { onClick: function (event) { return removeItem(event); } },
-                        React.createElement(RemoveIcon, null))))),
+                        React.createElement(HighlightOffIcon, null))))),
         helperText ||
             fieldError ||
             (status === "ERROR" && message === "request entity too large") ? (React.createElement(FormHelperText, __assign({}, helperTextProps, { className: propClasses === null || propClasses === void 0 ? void 0 : propClasses.helperText, error: !!fieldError }), fieldError || helperText)) : null));

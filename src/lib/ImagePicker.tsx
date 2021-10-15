@@ -15,7 +15,7 @@ import React, { FC, useState } from "react";
 import { getFieldError, IFieldProps, TFile } from "react-forms";
 
 import { Picture } from "./Picture/@types";
-import RemoveIcon from "@material-ui/icons/Remove";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import AddIcon from "@material-ui/icons/Add";
 import { get } from "lodash";
 
@@ -178,7 +178,7 @@ const ImagePicker: FC<ImagePickerProps> = (props) => {
           )}
           <div id="imageRemoveOverlay" className={classes.imageRemoveOverlay}>
             <IconButton onClick={(event) => removeItem(event)}>
-              <RemoveIcon />
+              <HighlightOffIcon />
             </IconButton>
           </div>
         </div>

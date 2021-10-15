@@ -7,7 +7,7 @@ var core = require('@material-ui/core');
 var React = require('react');
 var ReactCrop = require('react-image-crop');
 require('react-image-crop/dist/ReactCrop.css');
-var RemoveIcon = require('@material-ui/icons/Remove');
+var HighlightOffIcon = require('@material-ui/icons/HighlightOff');
 var AddIcon = require('@material-ui/icons/Add');
 var lodash = require('lodash');
 
@@ -15,7 +15,7 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 
 var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
 var ReactCrop__default = /*#__PURE__*/_interopDefaultLegacy(ReactCrop);
-var RemoveIcon__default = /*#__PURE__*/_interopDefaultLegacy(RemoveIcon);
+var HighlightOffIcon__default = /*#__PURE__*/_interopDefaultLegacy(HighlightOffIcon);
 var AddIcon__default = /*#__PURE__*/_interopDefaultLegacy(AddIcon);
 
 /*! *****************************************************************************
@@ -274,7 +274,7 @@ var ImagePicker = function (props) {
                         React__default["default"].createElement(ImageCropper, { open: open, onClose: function () { return setOpen(false); }, base64: croppedImage.base64, cropConfig: cropConfig, onComplete: handleUpload }))) : null)),
                 React__default["default"].createElement("div", { id: "imageRemoveOverlay", className: classes.imageRemoveOverlay },
                     React__default["default"].createElement(core.IconButton, { onClick: function (event) { return removeItem(event); } },
-                        React__default["default"].createElement(RemoveIcon__default["default"], null))))),
+                        React__default["default"].createElement(HighlightOffIcon__default["default"], null))))),
         helperText ||
             fieldError ||
             (status === "ERROR" && message === "request entity too large") ? (React__default["default"].createElement(core.FormHelperText, __assign({}, helperTextProps, { className: propClasses === null || propClasses === void 0 ? void 0 : propClasses.helperText, error: !!fieldError }), fieldError || helperText)) : null));
