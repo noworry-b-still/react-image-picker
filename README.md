@@ -9,12 +9,19 @@
 - Supports selecting images from a URL.
 - Provides a customizable UI for a seamless user experience.
 
-## Installation
+To install `react-image-picker` in your project directly from GitHub, you can use npm or yarn:
 
-To install `react-image-picker` in your project, you can use npm or yarn:
+### Install with npm
+```bash
+npm install git+https://github.com/noworry-b-still/react-image-picker.git
+```
 
-`npm install react-image-picker`
-`yarn add react-image-picker`
+### Install with yarn
+```bash
+yarn add https://github.com/noworry-b-still/react-image-picker.git
+```
+
+## Usage
 
 ```bash
 import React from 'react';
